@@ -41,7 +41,6 @@ interface OccupationalHealthcareEntry extends BaseEntry {
 
 interface HospitalEntry extends BaseEntry {
   type: "Hospital"
-  diagnosesCode: string[]
   discharge: {
     date: string
     criteria: string
@@ -49,6 +48,8 @@ interface HospitalEntry extends BaseEntry {
 }
 
 export type Entry = BaseEntry | HospitalEntry | OccupationalHealthcareEntry | HealthCheckEntry;
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+export type EntryWithoutId = UnionOmit<Entry, 'id'>;
 
 export interface Patient {
   id: string;
@@ -61,3 +62,12 @@ export interface Patient {
 }
 
 export type PatientFormValues = Omit<Patient, "id" | "entries">;
+
+export type EntryFormProps = {
+  setType: React.Dispatch<React.SetStateAction<string>>;
+  healthCheckFormRef: React.RefObject<HTMLFormElement>;
+  handleNewEntry: (e: React.FormEvent) => void;
+  diagnoses: Diagnosis[];
+  entryDiagnoses: string[];
+  setEntryDiagnoses: React.Dispatch<React.SetStateAction<string[]>>
+};

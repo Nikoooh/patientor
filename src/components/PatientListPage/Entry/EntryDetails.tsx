@@ -26,13 +26,14 @@ const EntryDetails: React.FC<{entry: Entry, diagnoses: Diagnosis[]}> = ({entry, 
   } else {
     icon = null;
   }
-  
+
   return (
     <div style={{marginTop: '20px'}}>
       <Typography> {entry.date} {entry.description} {icon} </Typography>
       <ul>
         {entry.diagnosisCodes?.map((code) => {
           const diagnosisName = diagnoses.find((x) => x.code === code);
+          
           return (
             <li key={code}>
               {code} {diagnosisName ? diagnosisName.name : ''}
